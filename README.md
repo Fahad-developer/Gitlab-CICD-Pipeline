@@ -1,130 +1,55 @@
- 
-# Flask App with MySQL Docker Setup
+#Two-Tier Flask Application with Docker Compose
+This project is a simple, yet robust, two-tier web application designed to demonstrate containerization using Docker and Docker Compose. It consists of a frontend web application built with Flask and a backend database powered by MySQL.
 
-This is a simple Flask app that interacts with a MySQL database. The app allows users to submit messages, which are then stored in the database and displayed on the frontend.
+The application allows users to submit and view messages, showcasing a complete flow of data from the frontend, through the application layer, and into persistent storage in the database.
 
-## Prerequisites
+#🛠️ Tech Stack & Tools
+Backend Framework: Flask (Python) - A lightweight and flexible web framework used to handle server-side logic and render HTML templates.
 
-Before you begin, make sure you have the following installed:
+Database: MySQL - A powerful relational database for storing application data.
 
-- Docker
-- Git (optional, for cloning the repository)
+Containerization: Docker - Used to package the application and database into portable and isolated containers.
 
-## Setup
+Orchestration: Docker Compose - Simplifies the management of multi-container applications by defining and running all services in a single YAML file.
 
-1. Clone this repository (if you haven't already):
+#⚙️ Key Architectural Concepts
+Two-Tier Architecture: The application logic and data storage are separated into two distinct layers, which improves maintainability and scalability.
 
-   ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   ```
+Containerization: Both services run in separate containers, ensuring a consistent and isolated environment across different systems.
 
-2. Navigate to the project directory:
+Environment Variables: Sensitive information like database credentials are not hardcoded but managed via environment variables, enhancing security.
 
-   ```bash
-   cd your-repo-name
-   ```
+Service Healthchecks: Docker Compose is configured with healthchecks to ensure the database is fully ready before the Flask application starts, preventing common connection errors.
 
-3. Create a `.env` file in the project directory to store your MySQL environment variables:
+#🚀 How to Run the Project
+Follow these simple steps to get the application up and running on your local machine or a Linux server.
 
-   ```bash
-   touch .env
-   ```
+Prerequisites
+You need to have Docker and Docker Compose installed on your system.
 
-4. Open the `.env` file and add your MySQL configuration:
+#Steps to Deploy
+Clone the Repository:
 
-   ```
-   MYSQL_HOST=mysql
-   MYSQL_USER=your_username
-   MYSQL_PASSWORD=your_password
-   MYSQL_DB=your_database
-   ```
+git clone [https://github.com/Fahad-developer/Docker-Two-Tier-Application.git](https://github.com/Fahad-developer/Docker-Two-Tier-Application.git)
+cd Docker-Two-Tier-Application
 
-## Usage
+#Build and Run the Containers:
+Docker Compose will automatically build the Flask application image and pull the MySQL image, then start both containers in the correct order.
 
-1. Start the containers using Docker Compose:
+docker-compose up --build -d
 
-   ```bash
-   docker-compose up --build
-   ```
+Note: The -d flag runs the containers in detached mode (in the background).
 
-2. Access the Flask app in your web browser:
+#Access the Application:
+Once the containers are up and running, you can access the application in your web browser.
 
-   - Frontend: http://localhost
-   - Backend: http://localhost:5000
+For local deployment: http://localhost:5000
 
-3. Create the `messages` table in your MySQL database:
+For cloud server (e.g., EC2): http://<your-server-public-ip-address>:5000
 
-   - Use a MySQL client or tool (e.g., phpMyAdmin) to execute the following SQL commands:
-   
-     ```sql
-     CREATE TABLE messages (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         message TEXT
-     );
-     ```
+#🧹 Cleaning Up
+To stop and remove all containers, networks, and volumes created by Docker Compose, run the following command from the project directory:
 
-4. Interact with the app:
+docker-compose down -v
 
-   - Visit http://localhost to see the frontend. You can submit new messages using the form.
-   - Visit http://localhost:5000/insert_sql to insert a message directly into the `messages` table via an SQL query.
-
-## Cleaning Up
-
-To stop and remove the Docker containers, press `Ctrl+C` in the terminal where the containers are running, or use the following command:
-
-```bash
-docker-compose down
-```
-
-## To run this two-tier application using  without docker-compose
-
-- First create a docker image from Dockerfile
-```bash
-docker build -t flaskapp .
-```
-
-- Now, make sure that you have created a network using following command
-```bash
-docker network create twotier
-```
-
-- Attach both the containers in the same network, so that they can communicate with each other
-
-i) MySQL container 
-```bash
-docker run -d \
-    --name mysql \
-    -v mysql-data:/var/lib/mysql \
-    --network=twotier \
-    -e MYSQL_DATABASE=mydb \
-    -e MYSQL_ROOT_PASSWORD=admin \
-    -p 3306:3306 \
-    mysql:5.7
-
-```
-ii) Backend container
-```bash
-docker run -d \
-    --name flaskapp \
-    --network=twotier \
-    -e MYSQL_HOST=mysql \
-    -e MYSQL_USER=root \
-    -e MYSQL_PASSWORD=admin \
-    -e MYSQL_DB=mydb \
-    -p 5000:5000 \
-    flaskapp:latest
-
-```
-
-## Notes
-
-- Make sure to replace placeholders (e.g., `your_username`, `your_password`, `your_database`) with your actual MySQL configuration.
-
-- This is a basic setup for demonstration purposes. In a production environment, you should follow best practices for security and performance.
-
-- Be cautious when executing SQL queries directly. Validate and sanitize user inputs to prevent vulnerabilities like SQL injection.
-
-- If you encounter issues, check Docker logs and error messages for troubleshooting.
-
-```
-
+The -v flag also removes the volumes, ensuring that the database data is completely cleared.*
