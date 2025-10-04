@@ -23,7 +23,7 @@ services:
       - two-tier-network
 
   flask:
-    build: .
+    image: flask-app:latest
     container_name: flask_app
     environment:
       MYSQL_HOST: mysql
