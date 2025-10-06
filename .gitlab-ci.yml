@@ -1,0 +1,26 @@
+stages:
+    - build
+    - test
+    - push
+    - deploy
+
+build_job:
+    stage: build
+    script: 
+        - echo "This build is done using docker"
+
+
+test_job:
+    stage: test
+    script:
+        - echo "This is testing for docker build"
+
+push_job:
+    stage: push
+    script:
+        - echo "This is pushing to docker-hub"
+
+deploy_job:
+    stage: deploy
+    script:
+        - echo "Deploy to EC2 instance is going on"
