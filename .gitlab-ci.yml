@@ -39,8 +39,8 @@ deploy_job:
 production_test_job:
     stage: test
     script:
-    - mkdir -p logs
-    - echo "Testing..." > logs/test.log
+        - mkdir -p logs
+        - echo "Testing..." > logs/test.log
     artifacts:
         paths:
             - logs/
