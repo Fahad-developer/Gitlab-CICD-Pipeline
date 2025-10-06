@@ -4,10 +4,13 @@ stages:
     - push
     - deploy
 
+variables:
+    OWNER_NAME: "Muhammad Fahad"
+
 build_job:
     stage: build
     script: 
-        - echo "This build is done using docker"
+        - echo "This build is done using docker by $OWNER_NAME"
 
 
 test_job:
