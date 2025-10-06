@@ -36,3 +36,4 @@ production_test_job:
     artifacts:
         paths:
             - logs/
+        expire_in: 1 hour
