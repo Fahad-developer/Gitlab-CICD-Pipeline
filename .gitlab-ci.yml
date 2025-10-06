@@ -24,3 +24,8 @@ deploy_job:
     stage: deploy
     script:
         - echo "Deploy to EC2 instance is going on"
+
+production_test_job:
+    stage: test
+    script:
+        - echo "Testing for production deployment"
