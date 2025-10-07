@@ -1,3 +1,4 @@
+version: '3.9'
 
 services:
   mysql:
@@ -22,7 +23,7 @@ services:
       - two-tier-network
 
   flask:
-    image: flask-app:latest
+    image: zareena137/flask-app:latest
     container_name: flask_app
     environment:
       MYSQL_HOST: mysql
